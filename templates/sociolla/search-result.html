@@ -1,0 +1,314 @@
+{% load staticfiles %}
+<html class=" webkit chrome linux js webkit chrome linux js"><head>
+
+        <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+        <title>Maquillage - Modern Beauty Shop Template</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="{% static 'css/raleway.css' %}" rel='stylesheet' type='text/css'>
+        <link href="{% static 'css/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap/css/bootstrap-responsive.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+
+
+        <link href="{% static 'css/dataslider.css' %}" rel="stylesheet">
+
+
+
+        <!--[if IE 7]>
+
+        <link href="css/font-awesome/css/font-awesome-ie7.min.css" rel="stylesheet">
+
+        <![endif]-->
+
+        <link  rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link  rel="stylesheet" href="{% static 'css/responsive.css' %}">
+        <link rel="stylesheet" href="{% static "jquery-ui.css" %}" type="text/css" media="all" />
+
+        <script src="{% static "jquery.min.js" %}" type="text/javascript"></script>
+        <script src="{% static "jquery-ui.min.js" %}" type="text/javascript"></script>
+        <script type="text/javascript">
+        $(function() {
+          $("#search").autocomplete({
+            source: "{% url 'autocomplete-view' %}",
+            minLength: 1,
+            select: function(event, ui) {
+              window.location.href = "{% url 'product-detail' %}" + "?product_id=" + ui.item.id;
+            },
+            open: function(event, ui) {
+                $(".ui-autocomplete").css("z-index", 1000);
+            }
+          });
+          $("#search-form").submit(function( event ) {
+
+              window.location.href = "{% url 'search-detail' %}" + "?term=" + $("#search").val();
+              event.preventDefault();
+          });
+          $(".right-corder-container-button").hover(function() {
+			$(".long-text").addClass("show-long-text");   
+		  }, function () {
+			$(".long-text").removeClass("show-long-text");
+		  });
+        });
+        </script>
+
+        <script type="text/javascript">
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        </script>
+
+
+
+    </head>
+    <body>
+
+
+
+        <div class="wrapper">
+            <section class="section-head">
+                <div class="container">
+                    <div class="row-fluid top-row">
+                        <div class="span4"></div>
+                        <div class="span4 logo-holder">
+                            <div class="logo">
+                                <span class="icon">
+                                    <img alt="" src={% static "images/logo.png"%} />
+                                </span>
+                                <span class="text" style="top: 40px;">
+                                    <a href="/">Maquill<span>age</span></a>
+                                </span>
+                            </div>
+						</div>
+					</div>
+
+
+                </div>
+
+                <div class="top-categories">
+                    <div class="container">
+                        <div class="row-fluid">
+                          <div class="span12">
+                                <div class="search-field-holder">
+                                    <form id="search-form">
+                                        <input id="search" class="span12" type="text" placeholder="Type then select or hit Enter" style="height: 46px;">
+                                        <i class="icon-search"></i>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+  </section>
+
+
+            <section class="section-two-columns">
+                <div class="container">
+                    <div class="row-fluid">
+
+                        <div class="span12">
+
+
+                            <div id="list-view" class="products-list products-holder active  tab-pane" style="display: block;">
+                              <h1>Search Result for {{query}}</h1>
+                              {% for product in data %}
+                                <div class="list-item">
+                                    <div class="row-fluid">
+                                        <div class="span4">
+                                            <div class="thumb">
+                                            <img alt="" src="{{ product.image }}">
+                                            </div>
+                                        </div>
+                                        <div class="span8">
+                                            <h1>{{ product.name }}</h1>
+                                            <div class="tag-line">
+                                                {{ product.brand }}
+                                            </div>
+                                            <div class="desc">
+                                              Category: {{ product.category }}<br/>
+                                              {% if product.description %}
+                                                {{ product.description }}
+                                              {% else %}
+                                                No description for this product.
+                                              {% endif %}
+                                            </div>
+                                            <div class="price">
+                                                <span>Rp {{ product.price }}</span>
+
+                                            </div>
+                                            <div class="buttons-holder">
+
+                                            <a class="cusmo-btn gray add-button" href="{% url 'product-detail' %}?product_id={{ product.id }}">details</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                {% endfor %}
+
+
+                            </div>
+                            <div class="row-fluid">
+                              <div class="span6"style="color: rgb(133, 142, 151);">
+                                   <p>Page {{page}} of {{total_page}}</p>
+                              </div>
+                              <div class="span6 pull-right" style="text-align: right; color: rgb(133, 142, 151);">
+                                   <p>Go to Page: <input id="page" style="width:40px;"> <input id="go" type="button" value="Go" /></p>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-copyright" style="margin-bottom: 0px;">
+                <div class="container">
+                    <div class="copyright pull-left">
+                        <p>
+                            <strong>© Maquillage 2016</strong>
+                        </p>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+		<div class="right-corder-container">
+			<button class="btn-lg right-corder-container-button" data-toggle="modal" data-target="#myModal">
+				<span class="short-text">?</span>
+				<span class="long-text">Help</span>
+			</button>
+		</div>
+
+		<!-- Modal -->
+		<div id="myModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+			<div class="modal-header" style="background-color: rgb(237, 69, 89);">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title" style="color: white;">Help</h4>
+			</div>
+			<div class="modal-body" style="background-color: rgb(255, 149, 162);">
+				<h2>Langkah Pencarian Produk</h2>
+				<p>Berikut ini langkah-langkah pencarian produk menggunakan mesin pencari.</p>
+				<ul id='timeline'>
+					<li class='work'>
+						<input class='radio' id='work5' name='works' type='radio' checked>
+							<div class="relative">
+								<label for='work5'>Fitur Autocomplete</label>
+								<span class='date'>Langkah Ke-1</span>
+								<span class='circle'></span>
+							</div>
+							<div class='content'>
+								<p>Cukup ketikan tiga huruf dari produk yang dicari, akan diberikan saran produk yang sesuai dengan kata yang diketikan</p>
+							</div>
+					</li>
+					<li class='work'>
+						<input class='radio' id='work4' name='works' type='radio'>
+							<div class="relative">
+								<label for='work4'>Fitur Autocorrect</label>
+								<span class='date'>Langkah Ke-2</span>
+								<span class='circle'></span>
+							</div>
+							<div class='content'>
+								<p>
+									Jika anda tidak sengaja salah mengeja nama produk, maka akan ditampilkan saran produk yang mendekati kata yang dikoreksi
+								</p>
+							</div>
+					</li>
+					<li class='work'>
+						<input class='radio' id='work3' name='works' type='radio'>
+							<div class="relative">
+								<label for='work3'>Tidak Ada Produk yang Dicari</label>
+								<span class='date'>Langkah Ke-3</span>
+								<span class='circle'></span>
+							</div>
+							<div class='content'>
+								<p>
+									Jika masih belum mendapat produk yang dicari dalam fitur Autocorrect, tekan tombol Enter untuk melihat hasil pencarian selengkapnya.
+								</p>
+							</div>
+					</li>
+					<li class='work'>
+						<input class='radio' id='work2' name='works' type='radio'>
+							<div class="relative">
+								<label for='work2'>Mencari Produk yang Disarankan</label>
+								<span class='date'>Langkah Ke-4</span>
+								<span class='circle'></span>
+							</div>
+							<div class='content'>
+								<p>
+									Ketika tombol Enter ditekan, akan ditampilkan hasil pencarian selengkapnya. Pada setiap hasil pencarian diberikan deskripsi produk, sehingga memudahkan menemukan alternatif produk jika tidak ada produk tujuan.
+								</p>
+							</div>
+					</li>
+					<li class='work'>
+						<input class='radio' id='work1' name='works' type='radio'>
+							<div class="relative">
+								<label for='work1'>Melihat Detail Lengkap Hasil Pencarian</label>
+								<span class='date'>Langkah Ke-5</span>
+								<span class='circle'></span>
+							</div>
+						<div class='content'>
+							<p>
+								Untuk melihat penjelasan setiap produk lebih lengkap, tekan tombol Detail
+							</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+			</div>
+		</div>
+		</div>
+
+
+        <script src="{% static 'js/jquery-migrate-1.1.1.min.js'%}"></script>
+        <script src="{% static 'css/bootstrap/js/bootstrap.min.js'%}"></script>
+
+        <script type="text/javascript" src="{% static 'js/css_browser_selector.js'%}"></script>
+
+        <script type="text/javascript" src="{% static 'js/twitter-bootstrap-hover-dropdown.min.js'%}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.easing-1.3.js'%}"></script>
+
+
+        <script type="text/javascript" src="{% static 'js/bootstrap-slider.js'%}"></script>
+
+        <script type="text/javascript" src="{% static 'js/script.js'%}"></script>
+        <script type="text/javascript">
+            $("#go").click(function(){
+                var page = $("#page").val();
+                if (page>{{total_page}}){
+                  alert('Your input is out of range!');
+                }else{
+                  if (page){
+                    var url = "{% url 'search-detail' %}?page="+page+"{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}";
+                    window.location.href = url;
+                  }else{
+                    alert('Please input page number!');
+                  }
+                }
+
+            });
+
+        </script>
+
+
+
+
+
+
+</body></html>
